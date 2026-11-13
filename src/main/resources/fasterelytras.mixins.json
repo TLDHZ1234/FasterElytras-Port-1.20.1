@@ -1,0 +1,12 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "com.avicario.fasterelytras.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "mixins": [
+    "FireworkRocketEntityMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

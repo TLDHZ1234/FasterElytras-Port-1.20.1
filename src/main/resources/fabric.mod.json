@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 1,
+  "id": "fasterelytras",
+  "version": "${version}",
+  "name": "FasterElytras",
+  "description": "",
+  "authors": ["avicario"],
+  "contact": {},
+  "license": "All-Rights-Reserved",
+  "icon": "assets/fasterelytras/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "client": [
+      "com.avicario.fasterelytras.client.FasterelytrasClient"
+    ],
+    "main": [
+      "com.avicario.fasterelytras.FasterElytras"
+    ],
+    "modmenu": [
+      "com.avicario.fasterelytras.client.ConfigScreen"
+    ]
+  },
+  "mixins": [
+    "fasterelytras.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.14.21",
+    "fabric": "*",
+    "minecraft": "~1.20.1",
+    "cloth-config": ">=11.0.0"
+  },
+  "suggests": {
+    "modmenu": ">=7.0.0"
+  }
+}

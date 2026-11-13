@@ -1,0 +1,66 @@
+plugins {
+    // 统一使用你之前成功的 1.9.1 版本，不要用 SNAPSHOT
+    id 'fabric-loom' version '1.9.1'
+    id 'maven-publish'
+}
+
+version = project.mod_version
+group = project.maven_group
+
+base {
+    archivesName = project.archives_base_name
+}
+
+repositories {
+    maven { url = "https://maven.terraformersmc.com/releases/" }
+    maven { url = "https://maven.shedaniel.me/" }
+}
+
+dependencies {
+    minecraft "com.mojang:minecraft:${project.minecraft_version}"
+    mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
+    modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
+    modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+
+    // 【必须修改】改成相对路径！并且确保这两个 jar 包你推到了 GitHub 的 ipleMods 文件夹里
+    modImplementation files("ipleMods/cloth-config-11.1.136-fabric.jar")
+    modImplementation files("ipleMods/modmenu-7.2.2.jar")
+}
+
+// 【核心修复】把 client 端的代码和资源也编译打包进 JAR！
+sourceSets {
+    main {
+        java {
+            srcDirs = ['src/main/java', 'src/client/java']
+        }
+        resources {
+            srcDirs = ['src/main/resources', 'src/client/resources']
+        }
+    }
+}
+
+processResources {
+    inputs.property "version", project.version
+    filteringCharset "UTF-8"
+
+    filesMatching("fabric.mod.json") {
+        expand "version": project.version
+    }
+}
+
+tasks.withType(JavaCompile).configureEach {
+    // 1.20.1 必须用 Java 17
+    it.options.release = 17
+}
+
+java {
+    withSourcesJar()
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
+}
+
+jar {
+    from("LICENSE") {
+        rename { "${it}_${project.base.archivesName.get()}"}
+    }
+}
